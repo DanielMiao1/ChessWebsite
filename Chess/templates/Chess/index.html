@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chess</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+      body {
+        text-align: center;
+      }
+      
+      h1 {
+        font-family: Helvetica;
+      }
+
+      #title {
+        font-family: Impact;
+        color: #0FF;
+        background-image: -webkit-linear-gradient(110deg, #00DCFF, #CC00FF);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        -webkit-animation: hue 10s infinite linear;
+      }
+
+      @-webkit-keyframes hue {
+        0% {
+          -webkit-filter: hue-rotate(0deg);
+        }
+        50% {
+          -webkit-filter: hue-rotate(-90deg);
+        }
+        100% {
+          -webkit-filter: hue-rotate(0deg);
+        }
+      }
+
+      .button1 {
+        cursor: pointer;
+        height: 2vw;
+        width: 5vw;
+        padding: 5px 0px;
+        border: 3px solid;
+        border-image: linear-gradient(150deg, #3387EA, #1DB964) 1;
+        animation: button1_animation 7s infinite linear;
+        transition: filter 0.4s;
+      }
+
+      .button1:hover {
+	      filter: contrast(125%);
+	      transition: filter 0.4s;
+      }
+
+      @keyframes button1_animation {
+        0% {
+          background-color: #DAF6FF;
+        }
+        25% {
+          background-color: #86D0E8;
+        }
+        50% {
+          background-color: #72DDFF;
+        }
+        75% {
+          background-color: #86D0E8;
+        }
+        80% {
+          background-color: #C5ECF9;
+        }
+        100% {
+          background-color: #DAF6FF;
+        }
+      }
+      
+      .button2 {
+        cursor: pointer;
+        height: 1.5vw;
+        width: 4vw;
+        border: 3px solid;
+        background-color: transparent;
+        animation: button2_animation 10s infinite linear;
+        transition: 0.2s;
+      }
+      
+      .button2:hover {
+        background-color: #EFEFEF;
+        transition: 0.2s;
+      }
+      
+      @keyframes button2_animation {
+        0% {
+          border-image: linear-gradient(150deg, #D7F3F3, #99FFFF) 1;
+        }
+        10% {
+          border-image: linear-gradient(150deg, #99FFFF, #76FFFF) 1;
+        }
+        20% {
+          border-image: linear-gradient(150deg, #76FFFF, #56FFE7) 1;
+        }
+        30% {
+          border-image: linear-gradient(150deg, #56FFE7, #56FFD8) 1;
+        }
+        40% {
+          border-image: linear-gradient(150deg, #56FFD8, #56FFB9) 1;
+        }
+        50% {
+          border-image: linear-gradient(150deg, #56FFB9, #56FFA1) 1;
+        }
+        60% {
+          border-image: linear-gradient(150deg, #56FFD8, #56FFB9) 1;
+        }
+        70% {
+          border-image: linear-gradient(150deg, #56FFE7, #56FFD8) 1;
+        }
+        80% {
+          border-image: linear-gradient(150deg, #76FFFF, #56FFE7) 1;
+        }
+        90% {
+          border-image: linear-gradient(150deg, #99FFFF, #76FFFF) 1;
+        }
+        100% {
+          border-image: linear-gradient(150deg, #D7F3F3, #99FFFF) 1;
+        }
+      }
+      
+			.modal {
+			  display: none;
+			  position: fixed;
+			  z-index: 1;
+			  padding-top: 100px;
+			  left: 0;
+			  top: 0;
+			  width: 100%;
+			  height: 100%;
+			  overflow: auto;
+			  background-color: rgba(0, 0, 0, 0.5);
+			}
+			
+			.modal_content {
+				background-color: white;
+			  margin: auto;
+			  padding: 20px;
+			  width: 80%;
+			}
+    </style>
+  </head>
+  <body onload="window.addEventListener('resize', resizeEvent, true); resizeEvent();">
+    <p id="title">Chess</p>
+    <button onclick="newGame();" class="button1">New Game</button>
+    <div class="modal" id="new_game">
+	    <div class="modal_content">
+		    <h1>New Game</h1>
+		    <button class="button2" onclick="document.location='./twoplayers';">Create</button>
+	    </div>
+    </div>
+    <script>
+      function resizeEvent() {
+        var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth, height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        document.getElementById("title").style.fontSize = (width / 10) + "px";
+        if (width / 22 > 95) {
+	        for (x of document.getElementsByClassName("button1")) {
+	          x.style.width = (width / 22) + "px";
+	          if (height / 25 > 39) {
+	            x.style.height = (height / 25) + "px";
+	          };
+	        };
+	      };
+      };
+
+
+      function newGame() {
+        document.getElementById("new_game").style.display = "block";
+      };
+
+
+      window.onclick = function(event) {
+			  if (event.target == document.getElementById("new_game")) {
+			    document.getElementById("new_game").style.display = "none";
+			  }
+			}
+    </script>
+  </body>
+</html>

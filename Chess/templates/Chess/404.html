@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>404</title>
+    <style>
+      body {
+        text-align: center;
+      }
+      span,
+      p {
+        font-family: Impact;
+        color: #F00;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="error">
+      <h1><span>4</span><span>0</span><span>4</span></h1>
+      <p>Page Not Found</p>
+    </div>
+    <script>
+      var animationPhase = 0
+      function changeFontSize() {
+        var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        document.getElementsByTagName("h1")[0].style.fontSize = (width / 10) + "px";
+        document.getElementsByTagName("p")[0].style.fontSize = (width / 30) + "px";
+      };
+
+      function updateAnimation() {
+        if (animationPhase === 0) {
+          document.getElementsByTagName("span")[0].style.color = "black";
+          animationPhase += 1;
+        } else if (animationPhase === 1) {
+          document.getElementsByTagName("span")[1].style.color = "black";
+          animationPhase += 1;
+        } else if (animationPhase === 2) {
+          document.getElementsByTagName("span")[2].style.color = "black";
+          animationPhase += 1;
+        } else if (animationPhase === 3) {
+          document.getElementsByTagName("span")[2].style.color = "red";
+          animationPhase += 1;
+        } else if (animationPhase === 4) {
+          document.getElementsByTagName("span")[1].style.color = "red";
+          animationPhase += 1;
+         } else {
+          document.getElementsByTagName("span")[0].style.color = "red";
+          animationPhase = 0;
+        };
+      };
+
+      window.addEventListener("resize", changeFontSize, true);
+      setInterval(updateAnimation, 250);
+      changeFontSize();
+    </script>
+  </body>
+</html>
