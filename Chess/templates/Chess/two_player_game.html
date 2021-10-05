@@ -1,16 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Two Player Mode - Chess</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style>
+      * {
+        border: none;
+      }
+
       body {
         text-align: center;
       }
 
-      .navigation {
+      square {
+        float: left;
+        width: 5vw;
+        height: 5vw;
+        display: table-cell;
+        cursor: pointer;
+      }
+
+      .light {
+        background-color: #FFFFDD;
+      }
+
+      .dark {
+        background-color: #86A666;
+      }
+
+      #navigation {
         display: inline;
       }
 
@@ -34,6 +54,12 @@
         background-color: transparent;
       }
 
+      #board {
+        width: calc(5vw * 8);
+        height: calc(5vw * 8);
+        margin: 0 auto;
+      }
+
       @-webkit-keyframes hue {
         0% {
           -webkit-filter: hue-rotate(0deg);
@@ -48,21 +74,177 @@
     </style>
   </head>
   <body onload="main();">
-    <div class="navigation">
+    <div id="navigation">
       <p id="title" onclick="document.location='/';">Chess</p>
     </div>
     <br>
-    <script>
+    <game>
+      <div id="board">
+      </div>
+    </game>
+    <script src="https://threejs.danielmiao1.repl.co/cdn.js" charset="utf-8" type="text/javascript"></script>
+    <script type="text/javascript">
+      /* Event listeners and initialization */
       function resizeEvent() {
         var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth, height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-        document.getElementsByClassName("navigation")[0].style.height = (height / 20) + "px";
-        console.log(document.getElementById("title").style.padding);
+        document.getElementById("navigation").style.height = (height / 20) + "px";
       };
 
       function main() {
         window.addEventListener("resize", resizeEvent, true);
-        resizeEvent()
+        resizeEvent();
       };
+
+      /* Chess game */
+      function square_click() {
+        /* Click event for inactive squares */
+        for (y of document.getElementById("board").children) {
+          if (y != this) {
+            let y_copy = y;
+            if (y.dataset.showing_moves == "true") {
+              y.removeEventListener("mouseover", bullet_enter);
+              y.removeEventListener("mouseout", bullet_leave);
+              if (y.dataset.piece == "true") {
+                y.style.background = `url("/images/${game.pieceAt(y.id.slice(7)).color}_${game.pieceAt(y.id.slice(7)).piece_type}.png") center / 4.5vw no-repeat, ${y.dataset.color}`;
+              } else {
+                y.style.background = y.dataset.color;
+              };
+              for (z of game.pieceAt(y.id.slice(7)).moves(true)) {
+                document.getElementById("square_" + z.new_position).removeEventListener("click", square_move);
+                document.getElementById("square_" + z.new_position).addEventListener("click", square_click);
+                document.getElementById("square_" + z.new_position).removeEventListener("mouseover", bullet_enter);
+                document.getElementById("square_" + z.new_position).removeEventListener("mouseout", bullet_leave);
+                if (document.getElementById("square_" + z.new_position).dataset.piece == "true") {
+                  document.getElementById("square_" + z.new_position).style.background = `url("/images/${game.pieceAt(z.new_position).color}_${game.pieceAt(z.new_position).piece_type}.png") center / 4.5vw no-repeat, ${document.getElementById("square_" + z.new_position).dataset.color}`;
+                } else {
+                  document.getElementById("square_" + z.new_position).style.background = document.getElementById("square_" + z.new_position).dataset.color;
+                };
+              };
+              y_copy.dataset.showing_moves = y_copy.dataset.showing_moves == "true" ? "false" : "true";
+            };
+          };
+        };
+        if (this.dataset.piece == "true") {
+          if (this.dataset.showing_moves == "false") {
+            if (game.pieceAt(this.id.slice(7)).color == game.turn) {
+              for (y of game.pieceAt(this.id.slice(7)).moves(true)) {
+                document.getElementById("square_" + y.new_position).dataset.move = y.name;
+                document.getElementById("square_" + y.new_position).removeEventListener("click", square_click);
+                document.getElementById("square_" + y.new_position).addEventListener("click", square_move);
+                document.getElementById("square_" + y.new_position).addEventListener("mouseover", bullet_enter);
+                document.getElementById("square_" + y.new_position).addEventListener("mouseout", bullet_leave);
+                if (document.getElementById("square_" + y.new_position).dataset.piece == "true") {
+                  document.getElementById("square_" + y.new_position).style.background = `url("/images/bullet.png") center / 4.5vw no-repeat, url("/images/${game.pieceAt(y.new_position).color}_${game.pieceAt(y.new_position).piece_type}.png") center / 4.5vw no-repeat, ${document.getElementById("square_" + y.new_position).dataset.color}`;
+                } else {
+                  document.getElementById("square_" + y.new_position).style.background = `url("/images/bullet.png") center / 4.5vw no-repeat, ${document.getElementById("square_" + y.new_position).dataset.color}`;
+                };
+              };
+            };
+            this.style.background = `url("/images/${game.pieceAt(this.id.slice(7)).color}_${game.pieceAt(this.id.slice(7)).piece_type}.png") center / 4.5vw no-repeat, #560cff`;
+          } else {
+            for (y of game.pieceAt(this.id.slice(7)).moves(true)) {
+              document.getElementById("square_" + y.new_position).dataset.move = "false";
+              document.getElementById("square_" + y.new_position).removeEventListener("click", square_click);
+              document.getElementById("square_" + y.new_position).addEventListener("click", square_move);
+              document.getElementById("square_" + y.new_position).removeEventListener("mouseover", bullet_enter);
+              document.getElementById("square_" + y.new_position).removeEventListener("mouseout", bullet_leave);
+              if (document.getElementById("square_" + y.new_position).dataset.piece == "true") {
+                document.getElementById("square_" + y.new_position).style.background = `url("/images/${game.pieceAt(y.new_position).color}_${game.pieceAt(y.new_position).piece_type}.png") center / 4.5vw no-repeat, ${document.getElementById("square_" + y.new_position).dataset.color}`;
+              } else {
+                document.getElementById("square_" + y.new_position).style.background = document.getElementById("square_" + y.new_position).dataset.color;
+              };
+            };
+            this.style.background = `url("/images/${game.pieceAt(this.id.slice(7)).color}_${game.pieceAt(this.id.slice(7)).piece_type}.png") center / 4.5vw no-repeat, ${this.dataset.color}`;
+          };
+          this.dataset.showing_moves = this.dataset.showing_moves == "true" ? "false" : "true";
+        };
+      };
+
+      function square_move() {
+        /* Click event for active squares */
+        for (y of document.getElementById("board").children) {
+          if (y != this) {
+            let y_copy = y;
+            if (y.dataset.showing_moves == "true") {
+              if (y.dataset.piece == "true") {
+                y.style.background = `url("/images/${game.pieceAt(y.id.slice(7)).color}_${game.pieceAt(y.id.slice(7)).piece_type}.png") center / 4.5vw no-repeat, ${y.dataset.color}`;
+              } else {
+                y.style.background = `url("/images/${game.pieceAt(y.id.slice(7)).color}_${game.pieceAt(y.id.slice(7)).piece_type}.png") center / 4.5vw no-repeat, ${y.dataset.color}`;
+              };
+              for (z of game.pieceAt(y.id.slice(7)).moves(true)) {
+                document.getElementById("square_" + z.new_position).removeEventListener("click", square_move);
+                document.getElementById("square_" + z.new_position).addEventListener("click", square_click);
+                document.getElementById("square_" + z.new_position).removeEventListener("mouseover", bullet_enter);
+                document.getElementById("square_" + z.new_position).removeEventListener("mouseout", bullet_leave);
+                if (document.getElementById("square_" + z.new_position).dataset.piece == "true") {
+                  document.getElementById("square_" + z.new_position).style.background = `url("/images/${game.pieceAt(z.new_position).color}_${game.pieceAt(z.new_position).piece_type}.png") center / 4.5vw no-repeat, ${document.getElementById("square_" + z.new_position).dataset.color}`;
+                } else {
+                  document.getElementById("square_" + z.new_position).style.background = document.getElementById("square_" + z.new_position).dataset.color;
+                };
+              };
+              y_copy.dataset.showing_moves = y_copy.dataset.showing_moves == "true" ? "false" : "true";
+            };
+          };
+        };
+        game.move(this.dataset.move);
+        update();
+      }
+
+      function bullet_enter() {
+        /* Move bullet mouse enter event */
+        if (this.dataset.piece == "true") {
+          this.style.background = `url("/images/${game.pieceAt(this.id.slice(7)).color}_${game.pieceAt(this.id.slice(7)).piece_type}.png") center / 4.5vw no-repeat, url("images/bullet.png") center / 4.5vw no-repeat, #6173ff`;
+        } else {
+          this.style.background = `url("images/bullet.png") center / 4.5vw no-repeat, #6173ff`;
+        };
+      };
+
+      function bullet_leave() {
+        /* Move bullet mouse leave event */
+        if (this.dataset.piece == "true") {
+          this.style.background = `url("/images/${game.pieceAt(this.id.slice(7)).color}_${game.pieceAt(this.id.slice(7)).piece_type}.png") center / 4.5vw no-repeat, url("images/bullet.png") center / 4.5vw no-repeat, ${this.dataset.color}`;
+        } else {
+          this.style.background = `url("images/bullet.png") center / 4.5vw no-repeat, ${this.dataset.color}`;
+        };
+      };
+
+      var game = new Game(), element; // Create instance of game
+
+      function load() {
+        /* Create squares */
+        for (x of game.squares) {
+          for (y of x) {
+            element = document.createElement("square");
+            element.id = "square_" + y.position;
+            element.style.background = y.color == "white" ? "#FFFFDD" : "#86A666"
+            element.dataset.piece = "false";
+            element.dataset.showing_moves = "false";
+            element.dataset.move = "false";
+            element.dataset.color = y.color == "white" ? "#FFFFDD" : "#86A666"
+            document.getElementById("board").appendChild(element);
+          };
+        };
+        // Place pieces
+        for (i of game.pieces) {
+          document.getElementById("square_" + i.position).style.background = `url("/images/${i.color}_${i.piece_type}.png") center / 4.5vw no-repeat, ${document.getElementById("square_" + i.position).dataset.color}`;
+          document.getElementById("square_" + i.position).dataset.piece = "true";
+        };
+        // Piece click events
+        for (x of document.getElementById("board").children) {
+          x.addEventListener("click", square_click);
+        };
+      };
+
+      function update() {
+        /* Updates the squares */
+        // Remove squares
+        while (document.getElementById("board").firstChild) {
+          document.getElementById("board").removeChild(document.getElementById("board").firstChild);
+        };
+        load(); // Load squares
+      };
+
+      load(); // Create squares
     </script>
   </body>
 </html>

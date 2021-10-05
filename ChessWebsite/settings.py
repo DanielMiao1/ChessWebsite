@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+try:
+	import dotenv
+except ModuleNotFoundError:
+	os.system("pip3 install python-dotenv")
+	import dotenv
+dotenv.load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,8 +27,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.popen("cat ~/.env/django-key").read()
-DEBUG = True
+SECRET_KEY = os.environ["KEY"]
+DEBUG = False
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
@@ -68,6 +74,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "ChessWebsite.wsgi.application"
+
+MEDIA_ROOT = BASE_DIR / "images"
+MEDIA_URL = "/images/"
 
 
 # Database
