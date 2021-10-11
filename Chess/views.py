@@ -16,6 +16,10 @@ def twoPlayerGame(request):
 	return render(request, "two_player_game.html")
 
 
+def login(request):
+	return render(request, "login.html")
+
+
 def handler404(request, *_):
 	return render(request, "404.html")
 

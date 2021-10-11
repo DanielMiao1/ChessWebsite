@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
     <title>Two Player Mode - Chess</title>
     <meta charset="UTF-8">
@@ -30,7 +30,7 @@
         background-color: #86A666;
       }
 
-      #navigation {
+      nav {
         display: inline;
       }
 
@@ -74,9 +74,9 @@
     </style>
   </head>
   <body onload="main();">
-    <div id="navigation">
+    <nav>
       <p id="title" onclick="document.location='/';">Chess</p>
-    </div>
+    </nav>
     <br>
     <game>
       <div id="board">
@@ -87,7 +87,7 @@
       /* Event listeners and initialization */
       function resizeEvent() {
         var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth, height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-        document.getElementById("navigation").style.height = (height / 20) + "px";
+        document.getElementsByTagName("nav")[0].style.height = (height / 20) + "px";
       };
 
       function main() {

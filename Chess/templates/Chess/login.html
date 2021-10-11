@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>Log In</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+      body {
+        text-align: center;
+      }
+      
+      nav {
+        display: inline;
+      }
+
+      #title {
+        cursor: pointer;
+        font-family: Impact;
+        color: #0FF;
+        margin-top: -5px;
+        font-size: calc(2vw + 5px);
+        background-image: -webkit-linear-gradient(110deg, #00DCFF, #CC00FF);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        -webkit-animation: hue 10s infinite linear;
+      }
+
+      #title:hover {
+        background-image: -webkit-linear-gradient(110deg, #F00, #00F);
+      }
+
+      #title::selection {
+        background-color: transparent;
+      }
+
+      @-webkit-keyframes hue {
+        0% {
+          -webkit-filter: hue-rotate(0deg);
+        }
+        50% {
+          -webkit-filter: hue-rotate(-90deg);
+        }
+        100% {
+          -webkit-filter: hue-rotate(0deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <p id="title" onclick="document.location='/';">Chess</p>
+    </nav>
+    <script type="text/javascript">
+      /* Event listeners and initialization */
+      function resizeEvent() {
+        var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth, height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        document.getElementsByTagName("nav")[0].style.height = (height / 20) + "px";
+      };
+
+      function main() {
+        window.addEventListener("resize", resizeEvent, true);
+        resizeEvent();
+      };
+    </script>
+  </body>
+</html>

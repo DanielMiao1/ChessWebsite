@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
   <head>
     <title>Chess</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style>
       body {
         text-align: center;
       }
-      
+
       h1 {
         font-family: Helvetica;
       }
@@ -20,7 +20,7 @@
         background-image: -webkit-linear-gradient(110deg, #00DCFF, #CC00FF);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        -webkit-animation: hue 10s infinite linear;
+        -webkit-animation: hue 50s infinite linear;
       }
 
       @-webkit-keyframes hue {
@@ -71,7 +71,7 @@
           background-color: #DAF6FF;
         }
       }
-      
+
       .button2 {
         cursor: pointer;
         height: 1.5vw;
@@ -81,12 +81,12 @@
         animation: button2_animation 10s infinite linear;
         transition: 0.2s;
       }
-      
+
       .button2:hover {
         background-color: #EFEFEF;
         transition: 0.2s;
       }
-      
+
       @keyframes button2_animation {
         0% {
           border-image: linear-gradient(150deg, #D7F3F3, #99FFFF) 1;
@@ -122,7 +122,7 @@
           border-image: linear-gradient(150deg, #D7F3F3, #99FFFF) 1;
         }
       }
-      
+
 			.modal {
 			  display: none;
 			  position: fixed;
@@ -135,7 +135,7 @@
 			  overflow: auto;
 			  background-color: rgba(0, 0, 0, 0.5);
 			}
-			
+
 			.modal_content {
 				background-color: white;
 			  margin: auto;
@@ -146,6 +146,7 @@
   </head>
   <body onload="window.addEventListener('resize', resizeEvent, true); resizeEvent();">
     <p id="title">Chess</p>
+    <a href="./login">Log In</a>
     <button onclick="newGame();" class="button1">New Game</button>
     <div class="modal" id="new_game">
 	    <div class="modal_content">
@@ -153,7 +154,7 @@
 		    <button class="button2" onclick="document.location='./twoplayers';">Create</button>
 	    </div>
     </div>
-    <script>
+    <script type="text/javascript">
       function resizeEvent() {
         var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth, height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
         document.getElementById("title").style.fontSize = (width / 10) + "px";
